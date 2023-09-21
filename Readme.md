@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Алексей Бордовских](https://up.htmlacademy.ru/nodejs-api/5/user/379045).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Сушко](https://htmlacademy.ru/profile/sashasushko).
 
 ---
 
