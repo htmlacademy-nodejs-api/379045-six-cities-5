@@ -1,0 +1,83 @@
+{
+  "api": {
+    "titles": [
+      "Студия в самом центре города",
+      "Просторная квартира с видом на море",
+      "Уютная квартира в историческом районе",
+      "Современная квартира с полностью оборудованной кухней",
+      "Квартира с террасой и прекрасным панорамным видом"
+    ],
+    "descriptions": [
+      "Историческая квартира с шармом старого города",
+      "Стильная студия в сердце модного района",
+      "Просторная квартира с собственным садом",
+      "Уютное гнездышко с камином и видом на горы",
+      "Современная квартира с балконом и близостью к достопримечательностям"
+    ],
+    "cities": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+    ],
+    "coords": [
+      { "latitude": 48.85661, "longitude": 2.351499 },
+      { "latitude": 50.938361, "longitude": 6.959974 },
+      { "latitude": 50.846557, "longitude": 4.351697 },
+      { "latitude": 52.370216, "longitude": 4.895168 },
+      { "latitude": 53.550341, "longitude": 10.000654 },
+      { "latitude": 51.225402, "longitude": 6.77631 }
+    ],
+    "previews": [
+      "amsterdam.jpg",
+      "amsterdam-01.jpg",
+      "amsterdam-02.jpg",
+      "amsterdam-03.jpg"
+    ],
+    "photos": [
+      "apartment-01.jpg",
+      "apartment-02.jpg",
+      "apartment-03.jpg"
+    ],
+    "comforts": [
+      "Breakfast",
+      "AirConditioning",
+      "LaptopFriendlyWorkspace",
+      "BabySeat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "types": [
+      "apartment",
+      "house",
+      "room",
+      "hotel"
+    ],
+    "names": [
+      "Иван Иванов",
+      "Олег Сидоров",
+      "Пьер Безухов",
+      "Роланд Дискейн",
+      "Холи Гибни"
+    ],
+    "emails": [
+      "snow@pisem.local",
+      "president@dka.local",
+      "fish@big.local",
+      "test@pisem.local",
+      "freedom@pisem.local"
+    ],
+    "avatars": [
+      "avatar-angelina.jpg",
+      "avatar-max.jpg"
+    ],
+    "passwords": [
+      "Iport123",
+      "Iport124",
+      "Iport125"
+    ]
+  }
+}
