@@ -1,5 +1,5 @@
-import { CiryCoords } from '../../types/cities.js';
-import { Offer, OfferType } from '../../types/offer.js';
+import { CiryCoords } from '../types/cities.js';
+import { Offer, OfferType } from '../types/offer.js';
 
 const getCoords = (coords: string): CiryCoords => {
   const [latitude, longitude] = coords.split(';');
