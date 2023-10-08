@@ -11,7 +11,7 @@ npm install
 Команда запустит процесс установки зависимостей проекта из **npm**.
 
 ```bash
-npm run ts ./src/main.cli.ts -- --generate 10 ./mocks/mock-data.tsv http://localhost:3090/api
+npm run ts ./src/main.cli.ts -- --import ./mocks/mock-data.tsv admin test localhost six-cities candy
 ```
 
 Команда запустит процесс генерации тестовых данных в файл **.tsv**.
