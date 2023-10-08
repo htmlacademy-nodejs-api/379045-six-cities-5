@@ -10,6 +10,18 @@ npm install
 
 Команда запустит процесс установки зависимостей проекта из **npm**.
 
+```bash
+npm run ts ./src/main.cli.ts -- --generate 10 ./mocks/mock-data.tsv http://localhost:3090/api
+```
+
+Команда запустит процесс генерации тестовых данных в файл **.tsv**.
+
+```bash
+ npm run ts ./src/main.cli.ts -- --import ./mocks/mock-data.tsv
+```
+
+Команда запустит процесс установки импорта в тестовых данных в БД
+
 ### Сценарии
 
 В `package.json` предопределено несколько сценариев.
