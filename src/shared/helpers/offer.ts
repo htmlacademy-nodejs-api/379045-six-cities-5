@@ -24,7 +24,6 @@ export const convertRawDataToOffers = (offerData: string): Offer => {
     name,
     email,
     avatar,
-    password,
     userType,
     commentsCount,
     coords
@@ -46,6 +45,6 @@ export const convertRawDataToOffers = (offerData: string): Offer => {
     coords: getCoords(coords),
     comforts: comforts.split(';').map((value) => value),
     price,
-    author: { name, email, password, avatar, type: userType as UserType },
+    author: { name, email, avatar, type: userType as UserType },
   };
 };

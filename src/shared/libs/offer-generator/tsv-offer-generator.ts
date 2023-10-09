@@ -32,7 +32,6 @@ export class TSVOfferGenerator implements OfferGenerator {
     const name = getRandomItem(mockData.names);
     const email = getRandomItem(mockData.emails);
     const avatar = getRandomItem(mockData.avatars);
-    const password = getRandomItem(mockData.passwords);
     const userType = getRandomItem([...userTypes]);
     const commentsCount = generateRandomValue(Rating.MIN, Rating.MAX);
     const coords = getRandomItem(mockData.coords);
@@ -53,7 +52,6 @@ export class TSVOfferGenerator implements OfferGenerator {
       name,
       email,
       avatar,
-      password,
       userType,
       commentsCount,
       coords,
