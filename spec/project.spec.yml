@@ -1,0 +1,807 @@
+openapi: 3.1.0
+info:
+  title: API сервер
+  description: |-
+    * Список ресурсов и маршрутов сервера
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+tags:
+  - name: offers
+  - name: users
+  - name: comments
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+      responses:
+        '201':
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: Некоторая предоставленная информация неверна.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/validationError'
+        '409':
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+      requestBody:
+        description: Информация для авторизации существующего пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authUser'
+        required: true
+      responses:
+        '200':
+          description: Пользователь был авторизован. Токен пользователя.
+          content:
+            text/plain:
+              schema:
+                type: string
+        '404':
+          description: Пользователь с указанными учетными данными не найден.
+
+    get:
+      tags:
+        - users
+      summary: Состояние авторизации пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      responses:
+        '200':
+          description: Токен сеанса пользователя действителен. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '401':
+          description: Токен сеанса пользователя недействителен.
+
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: Завершение сеанса пользователя
+      description: Завершает сеанс авторизованного пользователя.
+      responses:
+        '204':
+          description: Сессия успешно завершена.
+        '401':
+          description: Токен сеанса пользователя недействителен.
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Список предложений по аренде
+      description: Возвращает список предложений по аренде.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            required: false
+            description: Количество предложений, которые нужно получить
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+            enum:
+              - date-asc
+              - date-desc
+              - rating
+              - popular
+            required: false
+            description: Сортировка списка
+      responses:
+        '200':
+          description: Список предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerPreview'
+
+    post:
+      tags:
+        - offers
+      summary: Создание предложения
+      description: Создает новое предложение.
+      requestBody:
+        description: Информация для создания нового предложения.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+      responses:
+        '201':
+          description: Предложение было создано. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Некоторая предоставленная информация неверна.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/validationError'
+        '401':
+          description: Пользователь не авторизован для создания предложений.
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Подробная информация о предложении
+      description: Возвращает полное описание предложения.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      responses:
+        '200':
+          description: Подробная информация о предложении.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '404':
+          description: Предложение с указанным идентификатором не существует.
+
+    patch:
+      tags:
+        - offers
+      summary: Редактирование предложения
+      description: Обновляет предложение.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      requestBody:
+        description: Информацию в предложении необходимо обновить.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateOffer'
+        required: true
+      responses:
+        '200':
+          description: Предложение было успешно обновлено. Обновленное предложение.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Некоторая предоставленная информация неверна.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/validationError'
+        '401':
+          description: Пользователь не авторизован для редактирования предложений.
+        '403':
+          description: Пользователь не уполномочен редактировать данное предложение.
+        '404':
+          description: Предложение с указанным идентификатором не существует.
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения
+      description: Удаляет предложение.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      responses:
+        '204':
+          description: Предложение было успешно удалено.
+        '401':
+          description: Пользователь не авторизован для удаления предложения.
+        '403':
+          description: Пользователь не уполномочен удалять данное предложение.
+        '404':
+          description: Предложение с указанным идентификатором не существует.
+
+  /offers/{offerId}/comments:
+    get:
+      tags:
+        - offers
+        - comments
+      summary: Список комментариев
+      description: Возвращает список последних комментариев к данному предложению.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      responses:
+        '200':
+          description: Список комментариев.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+        '404':
+          description: Предложение с указанным идентификатором не существует.
+
+    post:
+      tags:
+        - offers
+        - comments
+      summary: Создание комментария
+      description: Добавляет комментарий к данному предложению.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      requestBody:
+        description: Информация для создания нового комментария.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createComment'
+        required: true
+      responses:
+        '201':
+          description: Комментарии были созданы. Объект комментария.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        '400':
+          description: Некоторая предоставленная информация неверна.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/validationError'
+        '401':
+          description: Пользователь не авторизован для добавления комментариев.
+        '404':
+          description: Предложение с указанным идентификатором не существует.
+
+  /offers/favorites:
+    get:
+      tags:
+        - offers
+      summary: Список избранных предложений
+      description: Возвращает все предложения, которые были добавлены текущим пользователем в список избранных.
+      responses:
+        '200':
+          description: Список предложений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerPreview'
+        '401':
+          description: Пользователь не авторизован для просмотра избранных предложений.
+
+  /offers/{offerId}/favorite:
+    put:
+      tags:
+        - offers
+      summary: Избранное предложение
+      description: Добавляет/удаляет предложение в список избранного в/из него.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: boolean
+      responses:
+        '204':
+          description: Статус предложения "избранное" был успешно обновлен
+        '401':
+          description: Пользователь не авторизован для обновления списка избранных предложений.
+
+  /offers/premium:
+    get:
+      tags:
+        - offers
+      summary: Список премиальных предложений
+      description: Возвращает список премиальных предложений для данного города.
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+            required: true
+            description: Город, для которого можно получить премиальные предложения.
+            example: Paris
+      responses:
+        '200':
+          description: Список премиальных предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 3
+                items:
+                  $ref: '#/components/schemas/offerPreview'
+
+components:
+  schemas:
+    validationError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Описание ошибки валидации
+          example: Пароль слишком короткий
+        field:
+          type: string
+          description: Имя поля, проверка которого не прошла.
+          example: password
+        code:
+          type: string
+          description: Код ошибки, связанный с ошибкой проверки.
+          example: validation.createUser.password.tooShort
+
+    createUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          required: true
+          example: keks@htmlacademy.ru
+        name:
+          type: string
+          required: true
+          example: Keks
+        password:
+          type: string
+          format: password
+          required: true
+          example: 123456
+        type:
+          type: string
+          enum:
+            - standard
+            - pro
+          required: true
+          example: pro
+        avatarPath:
+          type: string
+          required: false
+          example: https://random-image/128.jpg
+
+    authUser:
+      type: object
+      properties:
+        login:
+          type: string
+          example: keks@htmlacademy.ru
+        password:
+          type: string
+          example: 123456
+
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        name:
+          type: string
+          example: Keks
+        avatar:
+          type: string
+          example: https://random-image/128.jpg
+        type:
+          type: string
+          enum:
+            - standard
+            - pro
+          example: pro
+
+    createOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          required: true
+          example: Beautiful & luxurious studio at great location
+        description:
+          type: string
+          required: true
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        city:
+          type: string
+          enum:
+            - Amsterdam
+            - Brussels
+            - Cologne
+            - Dusseldorf
+            - Hamburg
+            - Paris
+          required: true
+          example: Amsterdam
+        preview:
+          type: string
+          required: true
+          example: https://random/image-preview.png
+        photos:
+          type: array
+          minItems: 6
+          maxItems: 6
+          items:
+            type: string
+            example: https://random/full-image.png
+          required: true
+        premium:
+          type: boolean
+          required: true
+          example: true
+        type:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          required: true
+          example: Apartment
+        roomsCount:
+          type: integer
+          required: true
+          example: 3
+        guestsCount:
+          type: integer
+          required: true
+          example: 5
+        price:
+          type: number
+          format: float
+          required: true
+          example: 100
+        comforts:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - AirConditioning
+              - LaptopFriendlyWorkspace
+              - BabySeat
+              - Washer
+              - Towels
+              - Fridge
+            example: Fridge
+          required: true
+        coords:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+              example: 48.85661
+            longitude:
+              type: number
+              format: float
+              example: 2.351499
+          required: true
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+          required: true
+
+    updateOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+          required: false
+        description:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+          required: false
+        city:
+          type: string
+          enum:
+            - Amsterdam
+            - Brussels
+            - Cologne
+            - Dusseldorf
+            - Hamburg
+            - Paris
+          example: Amsterdam
+          required: false
+        preview:
+          type: string
+          example: https://s3.amasonaws.com/image-preview.png
+          required: false
+        photos:
+          type: array
+          minItems: 6
+          maxItems: 6
+          items:
+            type: string
+            example: https://s3.amasonaws.com/full-image.png
+          required: false
+        premium:
+          type: boolean
+          example: true
+          required: false
+        type:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          example: Apartment
+          required: false
+        roomsCount:
+          type: integer
+          example: 3
+          required: false
+        guestsCount:
+          type: integer
+          example: 5
+          required: false
+        price:
+          type: number
+          format: float
+          example: 100
+          required: false
+        comforts:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - AirConditioning
+              - LaptopFriendlyWorkspace
+              - BabySeat
+              - Washer
+              - Towels
+              - Fridge
+            example: Fridge
+          required: false
+        coords:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+              example: 48.85661
+            longitude:
+              type: number
+              format: float
+              example: 2.351499
+          required: false
+
+    offer:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        description:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        postDate:
+          type: string
+          format: date-time
+          example: 2023-10-11T13:15:56.868Z
+        city:
+          type: string
+          enum:
+            - Amsterdam
+            - Brussels
+            - Cologne
+            - Dusseldorf
+            - Hamburg
+            - Paris
+          example: Amsterdam
+        preview:
+          type: string
+          example: https://s3.amasonaws.com/image-preview.png
+        photos:
+          type: array
+          minItems: 6
+          maxItems: 6
+          items:
+            type: string
+            example: https://s3.amasonaws.com/full-image.png
+        premium:
+          type: boolean
+          example: true
+        favored:
+          type: boolean
+          example: true
+        rating:
+          type: number
+          format: float
+          example: 4.2
+        type:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          example: Apartment
+        roomsCount:
+          type: integer
+          example: 3
+        guestsCount:
+          type: integer
+          example: 5
+        price:
+          type: number
+          format: float
+          example: 100
+        comforts:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - AirConditioning
+              - LaptopFriendlyWorkspace
+              - BabySeat
+              - Washer
+              - Towels
+              - Fridge
+            example: Fridge
+        coords:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: float
+              example: 48.85661
+            longitude:
+              type: number
+              format: float
+              example: 2.351499
+        commentsCount:
+          type: integer
+          example: 5
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+    offerPreview:
+      type: object
+      properties:
+        price:
+          type: number
+          format: float
+          example: 100
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        type:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          example: Apartment
+        favored:
+          type: boolean
+          example: true
+        postDate:
+          type: string
+          format: date-time
+          example: 2023-10-11T13:15:56.868Z
+        city:
+          type: string
+          enum:
+            - Amsterdam
+            - Brussels
+            - Cologne
+            - Dusseldorf
+            - Hamburg
+            - Paris
+          example: Amsterdam
+        preview:
+          type: string
+          example: https://s3.amasonaws.com/image-preview.png
+        premium:
+          type: boolean
+          example: false
+        rating:
+          type: number
+          format: float
+          example: 4.2
+        commentsCount:
+          type: integer
+          example: 5
+
+    createComment:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          required: true
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+          required: true
+
+    comment:
+      type: object
+      properties:
+        text:
+          type: string
+          example: Nice property!
+        postDate:
+          type: string
+          format: date-time
+          example: 2023-10-11T13:15:56.868Z
+        rating:
+          type: number
+          format: float
+          example: 4.2
+        userId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
