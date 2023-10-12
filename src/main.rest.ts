@@ -13,7 +13,6 @@ async function bootstrap() {
     createOfferContainer()
   );
 
-
   const app = container.get<RestApp>(Component.RestApp);
   await app.init();
 }
