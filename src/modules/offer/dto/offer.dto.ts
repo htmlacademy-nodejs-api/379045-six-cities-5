@@ -19,3 +19,13 @@ export class CreateOfferDto {
   public commentsCount: number;
   public coords: CiryCoords;
 }
+
+export class UpdateOfferDto {
+  public title?: string;
+  public description?: string;
+  public postDate?: Date;
+  public preview?: string;
+  public type?: OfferType;
+  public price?: number;
+  public comforts?: string[];
+}
