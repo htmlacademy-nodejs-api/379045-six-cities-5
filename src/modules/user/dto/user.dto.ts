@@ -7,3 +7,8 @@ export class CreateUserDto {
   public type: UserType;
   public password: string;
 }
+
+export class UpdateUserDto {
+  public avatar?: string;
+  public name?: string;
+}
