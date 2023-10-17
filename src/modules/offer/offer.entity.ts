@@ -1,5 +1,5 @@
-import { defaultClasses, getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
-import { UserEntity } from '../user/index.js';
+import { defaultClasses, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { UserEntity } from '../user/user.entity.js';
 import { CiryCoords, OfferType } from '../../shared/types/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -30,11 +30,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop()
   public photos!: string[];
 
-  @prop()
+  @prop({ default: false })
   public premium!: boolean;
-
-  @prop()
-  public favored!: boolean;
 
   @prop()
   public rating!: number;
@@ -57,16 +54,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public comforts!: string[];
 
   @prop({ default: 0 })
-  public commentCount!: number;
+  public commentsCount!: number;
 
   @prop()
   public coords!: CiryCoords;
 
-  @prop({
-    ref: UserEntity,
-    required: true
-  })
+  @prop({ ref: () => UserEntity, required: true })
   public userId!: Ref<UserEntity>;
 }
-
-export const OfferModel = getModelForClass(OfferEntity);

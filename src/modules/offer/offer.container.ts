@@ -1,8 +1,9 @@
 import { Container } from 'inversify';
 import { Component } from '../../shared/types/index.js';
 import { OfferService } from './offer.service.js';
-import { OfferEntity, OfferModel } from './offer.entity.js';
+import { OfferEntity } from './offer.entity.js';
 import { types } from '@typegoose/typegoose';
+import { OfferModel } from '../models.init.js';
 
 export const createOfferContainer = () => {
   const container = new Container();
