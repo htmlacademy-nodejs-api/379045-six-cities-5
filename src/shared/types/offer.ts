@@ -11,7 +11,6 @@ export type Offer = {
   preview: string;
   photos: string[];
   premium: boolean;
-  favored: boolean;
   rating: number;
   type: OfferType;
   roomsCount: number; // 1-8

@@ -60,7 +60,6 @@ export class Import implements Command {
       preview: offer.preview,
       photos: offer.photos,
       premium: offer.premium,
-      favored: offer.favored,
       rating: offer.rating,
       roomsCount: offer.roomsCount,
       guestsCount: offer.guestsCount,

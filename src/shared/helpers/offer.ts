@@ -36,7 +36,6 @@ export const convertRawDataToOffers = (offerData: string): Offer => {
     preview,
     photos: photos.split(';').map((photo) => photo),
     premium: Math.random() < 0.5,
-    favored: Math.random() < 0.5,
     rating: Number.parseInt(rating, 10),
     roomsCount: Number.parseInt(roomsCount, 10),
     guestsCount: Number.parseInt(guestsCount, 10),
