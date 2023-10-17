@@ -4,10 +4,11 @@ import { convertRawDataToOffers } from '../../shared/helpers/offer.js';
 import { getErrorMessage, getMongoURI } from '../../shared/helpers/index.js';
 import { DatabaseClient, MongoDatabaseClient } from '../../shared/libs/database-client/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
-import { UserModel, UserService } from '../../modules/user/index.js';
-import { OfferModel, OfferService } from '../../modules/offer/index.js';
+import { UserService } from '../../modules/user/index.js';
+import { OfferService } from '../../modules/offer/index.js';
 import { ConsoleLogger } from '../../shared/libs/logger/console.logger.js';
 import { Offer } from '../../shared/types/index.js';
+import { OfferModel, UserModel } from '../../modules/models.init.js';
 
 const DEFAULT_DB_PORT = '27017';
 const DEFAULT_USER_PASSWORD = '123456';
