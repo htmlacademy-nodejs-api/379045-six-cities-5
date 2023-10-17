@@ -54,7 +54,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public comforts!: string[];
 
   @prop({ default: 0 })
-  public commentCount!: number;
+  public commentsCount!: number;
 
   @prop()
   public coords!: CiryCoords;

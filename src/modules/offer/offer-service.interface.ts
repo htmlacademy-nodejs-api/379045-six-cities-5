@@ -8,8 +8,8 @@ export interface OfferService {
   find(): Promise<DocumentType<OfferEntity>[]>;
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null>;
-  incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
-  findNew(count: number): Promise<DocumentType<OfferEntity>[]>;
-  findDiscussed(count: number): Promise<DocumentType<OfferEntity>[]>;
+  incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  findPremium(city: string): Promise<DocumentType<OfferEntity>[]>;
   exists(documentId: string): Promise<boolean>;
+  // calculateAvgRating(offerId: string): Promise<DocumentType<OfferEntity>>;
 }

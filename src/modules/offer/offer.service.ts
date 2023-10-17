@@ -5,6 +5,7 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDto, UpdateOfferDto } from './dto/offer.dto.js';
 import { OfferService as OfferServiceInterface } from './offer-service.interface.js';
+import { MAX_PREMIUM_OFFERS_COUNT } from './offer.const.js';
 
 @injectable()
 export class OfferService implements OfferServiceInterface {
@@ -46,30 +47,24 @@ export class OfferService implements OfferServiceInterface {
       .exists({ _id: documentId })) !== null;
   }
 
-  public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, {
-        '$inc': {
-          commentsCount: 1,
-        }
-      }).exec();
+        '$inc': { commentsCount: 1 }
+      },
+      { new: true })
+      .exec();
   }
 
-  public async findNew(count: number): Promise<DocumentType<OfferEntity>[]> {
+  public async findPremium(city: string): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
-      .find()
+      .find({ city, premium: true }, {}, { limit: MAX_PREMIUM_OFFERS_COUNT })
+      .populate('userId')
       .sort({ createdAt: SortType.Down })
-      .limit(count)
-      .populate('userId')
       .exec();
   }
 
-  public async findDiscussed(count: number): Promise<DocumentType<OfferEntity>[]> {
-    return this.offerModel
-      .find()
-      .sort({ commentsCount: SortType.Down })
-      .limit(count)
-      .populate('userId')
-      .exec();
-  }
+  // public async calculateAvgRating(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+
+  // }
 }
