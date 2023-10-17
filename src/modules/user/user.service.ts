@@ -49,7 +49,8 @@ export class UserService implements UserServiceInterface {
   public async findFavorites(userId: string): Promise<DocumentType<OfferEntity>[] | null> {
     return this.userModel
       .findById(userId, { favorites: true, _id: false })
-      .populate<{favorites: DocumentType<OfferEntity>[]}>('favorites', {}, '', { sort: { createdAt: SortType.Down } })
+      .populate<{ favorites: DocumentType<OfferEntity>[] }>('favorites')
+      .sort({ createdAt: SortType.Down })
       .orFail()
       .exec()
       .then(({ favorites }) => favorites);
@@ -57,6 +58,7 @@ export class UserService implements UserServiceInterface {
   }
 
   public async changeFavorites(userId: string, offerId: string, value: boolean): Promise<DocumentType<UserEntity> | null> {
+    // @TODO добавить проверку на дубликаты
     return this.userModel
       .findByIdAndUpdate(userId, { [`${value ? '$push' : '$pull'}`]: { favorites: offerId } }, { new: true }).exec();
   }
