@@ -744,9 +744,6 @@ components:
             - Room
             - Hotel
           example: Apartment
-        favored:
-          type: boolean
-          example: true
         postDate:
           type: string
           format: date-time
