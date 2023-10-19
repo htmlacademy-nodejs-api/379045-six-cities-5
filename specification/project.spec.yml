@@ -94,6 +94,24 @@ paths:
         '401':
           description: Токен сеанса пользователя недействителен.
 
+  /users/{userId}/favorites:
+    get:
+      tags:
+        - users
+      summary: Список избранных предложений
+      description: Возвращает все предложения, которые были добавлены текущим пользователем в список избранных.
+      responses:
+        '200':
+          description: Список предложений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerPreview'
+        '401':
+          description: Пользователь не авторизован для просмотра избранных предложений.
+
   /offers:
     get:
       tags:
@@ -244,6 +262,30 @@ paths:
         '404':
           description: Предложение с указанным идентификатором не существует.
 
+  /offers/{offerId}favorite/:
+    put:
+      tags:
+        - offers
+      summary: Избранное предложение
+      description: Добавляет/удаляет предложение в список избранного в/из него.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: boolean
+      responses:
+        '204':
+          description: Статус предложения "избранное" был успешно обновлен
+        '401':
+          description: Пользователь не авторизован для обновления списка избранных предложений.
+
   /offers/{offerId}/comments:
     get:
       tags:
@@ -309,48 +351,6 @@ paths:
           description: Пользователь не авторизован для добавления комментариев.
         '404':
           description: Предложение с указанным идентификатором не существует.
-
-  /offers/favorites:
-    get:
-      tags:
-        - offers
-      summary: Список избранных предложений
-      description: Возвращает все предложения, которые были добавлены текущим пользователем в список избранных.
-      responses:
-        '200':
-          description: Список предложений.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/offerPreview'
-        '401':
-          description: Пользователь не авторизован для просмотра избранных предложений.
-
-  /offers/{offerId}/favorite:
-    put:
-      tags:
-        - offers
-      summary: Избранное предложение
-      description: Добавляет/удаляет предложение в список избранного в/из него.
-      parameters:
-        - in: path
-          name: offerId
-          schema:
-            type: string
-            required: true
-            description: Идентификатор предложения.
-      requestBody:
-        content:
-          text/plain:
-            schema:
-              type: boolean
-      responses:
-        '204':
-          description: Статус предложения "избранное" был успешно обновлен
-        '401':
-          description: Пользователь не авторизован для обновления списка избранных предложений.
 
   /offers/premium:
     get:
