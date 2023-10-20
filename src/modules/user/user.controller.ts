@@ -1,14 +1,14 @@
 import { injectable, inject } from 'inversify';
 import { BaseController, HttpError } from '../../shared/libs/rest/index.js';
-import { Component, HttpMethod } from '../../shared/types/index.js';
+import { Component, HttpMethod, Req } from '../../shared/types/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
 import { UserService } from './user.service.js';
 import { Config, RestSchema } from '../../shared/libs/config/index.js';
-import { CreateUserRequest, LoginUserRequest } from './user-request.type.js';
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../shared/helpers/index.js';
 import { UserRdo } from './rdo/user.rdo.js';
+import { CreateUserDto, LoginUserDto } from './dto/user.dto.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -27,7 +27,7 @@ export class UserController extends BaseController {
     this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.login });
   }
 
-  public async create({ body }: CreateUserRequest, res: Response): Promise<void> {
+  public async create({ body }: Req<CreateUserDto>, res: Response): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
@@ -42,7 +42,7 @@ export class UserController extends BaseController {
     this.created(res, fillDTO(UserRdo, result));
   }
 
-  public async login({ body }: LoginUserRequest, _res: Response): Promise<void> {
+  public async login({ body }: Req<LoginUserDto>, _res: Response): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (!existsUser) {

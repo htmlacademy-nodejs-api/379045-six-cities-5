@@ -1,3 +1,3 @@
-export type RequestBody = Record<string, unknown>;
+import { Request } from 'express';
 
-export type RequestParams = Record<string, unknown>;
+export type Req<T> = Request<Record<string, unknown>, Record<string, unknown>, T>;
