@@ -1,3 +1,3 @@
 import { Request } from 'express';
 
-export type Req<T> = Request<Record<string, unknown>, Record<string, unknown>, T>;
+export type Req<T, Params = Record<string, unknown>> = Request<Params, Record<string, unknown>, T>;
