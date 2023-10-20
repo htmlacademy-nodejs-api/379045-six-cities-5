@@ -22,6 +22,8 @@ export class RestApp {
     private readonly appExceptionFilter: ExceptionFilter,
     @inject(Component.UserController)
     private readonly userController: Controller,
+    @inject(Component.OfferController)
+    private readonly offerController: Controller,
   ) {
     this.server = express();
   }
@@ -44,7 +46,7 @@ export class RestApp {
   }
 
   private async _initControllers() {
-    // this.server.use('/offers', this.offerController.router);
+    this.server.use('/offers', this.offerController.router);
     this.server.use('/users', this.userController.router);
   }
 
