@@ -20,10 +20,10 @@ export class OfferController extends BaseController {
     super(logger);
     this.logger.info('Register routes for OfferController…');
 
-    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.getAll });
+    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.getById });
-    this.addRoute({ path: '/premium/:city', method: HttpMethod.Get, handler: this.getPremium });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show });
+    this.addRoute({ path: '/premium/:city', method: HttpMethod.Get, handler: this.showPremium });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.delete });
     // this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
     // this.addRoute({ path: '/:offerId/favorite/', method: HttpMethod.Put, handler: this.updateFavoriteStatus });
@@ -31,7 +31,7 @@ export class OfferController extends BaseController {
     // this.addRoute({ path: '/:offerId/comments/', method: HttpMethod.Post, handler: this.createComment });
   }
 
-  public async getAll(_req: Request, res: Response): Promise<void> {
+  public async index(_req: Request, res: Response): Promise<void> {
 
     const result = await this.offerService.find();
 
@@ -44,7 +44,7 @@ export class OfferController extends BaseController {
     this.created(res, fillDTO(CreateOfferDto, result));
   }
 
-  public async getById({ params: { offerId } }: Req<unknown, { offerId?: string }>, res: Response): Promise<void> {
+  public async show({ params: { offerId } }: Req<unknown, { offerId?: string }>, res: Response): Promise<void> {
 
     if (!offerId) {
       throw new HttpError(
@@ -59,7 +59,7 @@ export class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, result));
   }
 
-  public async getPremium({ params: { city } }: Req<unknown, { city?: string }>, res: Response): Promise<void> {
+  public async showPremium({ params: { city } }: Req<unknown, { city?: string }>, res: Response): Promise<void> {
 
     if (!city) {
       throw new HttpError(
