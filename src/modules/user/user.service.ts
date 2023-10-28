@@ -3,7 +3,7 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import { inject, injectable } from 'inversify';
 import { Component, SortType } from '../../shared/types/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
-import { CreateUserDto, UpdateUserDto } from './dto/user.dto.js';
+import { CreateUserDto } from './dto/user.dto.js';
 import { UserEntity } from './user.entity.js';
 import { OfferEntity } from '../offer/index.js';
 
@@ -38,12 +38,6 @@ export class UserService implements UserServiceInterface {
     }
 
     return this.create(dto, salt);
-  }
-
-  public async updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel
-      .findByIdAndUpdate(userId, dto, { new: true })
-      .exec();
   }
 
   public async findFavorites(userId: string): Promise<DocumentType<OfferEntity>[] | null> {
