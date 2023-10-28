@@ -7,7 +7,6 @@ import { DocumentExists } from '../../../types/index.js';
 export class DocumentExistsMiddleware implements Middleware {
   constructor(
     private readonly service: DocumentExists,
-    private readonly entityName: string,
     private readonly options: { from: 'params' | 'body', name: string, },
   ) { }
 
@@ -17,7 +16,7 @@ export class DocumentExistsMiddleware implements Middleware {
     if (! await this.service.exists(documentId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
-        `${this.entityName} with ${documentId} not found.`,
+        `${documentId} not found.`,
         'DocumentExistsMiddleware'
       );
     }
