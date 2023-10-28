@@ -1,7 +1,12 @@
 import { CiryCoords } from './cities.js';
 import { User } from './user.js';
 
-export type OfferType = 'apartment' | 'house' | 'room' | 'hotel';
+export enum OfferType {
+  Apartment = 'apartment',
+  House = 'house',
+  Room = 'room',
+  Hotel = 'hotel'
+}
 
 export type Offer = {
   title: string;

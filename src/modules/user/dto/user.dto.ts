@@ -1,20 +1,31 @@
-import { UserType } from '../../../shared/types/user.js';
+import { IsEmail, IsEnum, IsString, Length } from 'class-validator';
+import { UserType, userTypes } from '../../../shared/types/user.js';
+import { UserMessages } from './validate-messages.js';
 
 export class CreateUserDto {
+  @IsString({ message: UserMessages.name.required.msg })
+  @Length(1, 15, { message: UserMessages.name.length.msg })
   public name: string;
-  public email: string;
-  public avatar: string;
-  public type: UserType;
-  public password: string;
-}
 
-export class UpdateUserDto {
-  public avatar?: string;
-  public name?: string;
-  public favorites?: string[];
+  @IsEmail({}, { message: UserMessages.email.msg })
+  public email: string;
+
+  @IsString({ message: UserMessages.avatar.msg })
+  public avatar: string;
+
+  @IsString({ message: UserMessages.password.required.msg })
+  @Length(6, 12, { message: UserMessages.password.length.msg })
+  public password: string;
+
+  @IsEnum(userTypes, { message: UserMessages.type.msg })
+  public type: UserType;
 }
 
 export class LoginUserDto {
-  public email: string;
-  public password: string;
+  @IsEmail({}, { message: UserMessages.email.msg })
+  public email!: string;
+
+  @IsString({ message: UserMessages.password.required.msg })
+  @Length(6, 12, { message: UserMessages.password.length.msg })
+  public password!: string;
 }

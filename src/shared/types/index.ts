@@ -6,6 +6,7 @@ export * from './user.js';
 export * from './mock-server-data.js';
 export * from './component.js';
 export * from './sort-type.js';
-export * from './route.js';
+export * from '../libs/rest/types/route.js';
 export * from './http-method.js';
 export * from './request.js';
+export * from './document-exists.js';
