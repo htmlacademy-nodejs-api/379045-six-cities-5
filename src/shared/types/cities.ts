@@ -1,5 +1,12 @@
 
-export type CityName = 'Paris' | 'Cologne' | 'Brussels' |'Amsterdam' | 'Hamburg' | 'Dusseldorf';
+export enum CityName {
+  Paris = 'Paris',
+  Cologne = 'Cologne',
+  Brussels = 'Brussels',
+  Amsterdam = 'Amsterdam',
+  Hamburg = 'Hamburg',
+  Dusseldorf = 'Dusseldorf',
+}
 
 export type CiryCoords = { latitude: number; longitude: number };
 
@@ -12,4 +19,4 @@ export const Cities: City = {
   Amsterdam:  { latitude: 52.370216, longitude: 4.895168 },
   Hamburg:  { latitude: 53.550341, longitude: 10.000654 },
   Dusseldorf:  { latitude: 51.225402, longitude: 6.77631 }
-};
+} as const;
