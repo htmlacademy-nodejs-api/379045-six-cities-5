@@ -312,9 +312,33 @@ paths:
         '404':
           description: Предложение с указанным идентификатором не существует.
 
-    post:
+  /offers/premium:
+    get:
       tags:
         - offers
+      summary: Список премиальных предложений
+      description: Возвращает список премиальных предложений для данного города.
+      parameters:
+        - in: query
+          name: city
+          schema:
+            type: string
+            required: true
+            description: Город, для которого можно получить премиальные предложения.
+            example: Paris
+      responses:
+        '200':
+          description: Список премиальных предложений
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 3
+                items:
+                  $ref: '#/components/schemas/offerPreview'
+  /comments:
+    post:
+      tags:
         - comments
       summary: Создание комментария
       description: Добавляет комментарий к данному предложению.
@@ -325,6 +349,12 @@ paths:
             type: string
             required: true
             description: Идентификатор предложения.
+        - in: path
+          name: userId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор пользователя.
       requestBody:
         description: Информация для создания нового комментария.
         content:
@@ -351,31 +381,6 @@ paths:
           description: Пользователь не авторизован для добавления комментариев.
         '404':
           description: Предложение с указанным идентификатором не существует.
-
-  /offers/premium:
-    get:
-      tags:
-        - offers
-      summary: Список премиальных предложений
-      description: Возвращает список премиальных предложений для данного города.
-      parameters:
-        - in: query
-          name: city
-          schema:
-            type: string
-            required: true
-            description: Город, для которого можно получить премиальные предложения.
-            example: Paris
-      responses:
-        '200':
-          description: Список премиальных предложений
-          content:
-            application/json:
-              schema:
-                type: array
-                maxItems: 3
-                items:
-                  $ref: '#/components/schemas/offerPreview'
 
 components:
   schemas:
