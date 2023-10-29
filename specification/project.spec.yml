@@ -424,7 +424,7 @@ components:
             - pro
           required: true
           example: pro
-        avatarPath:
+        avatar:
           type: string
           required: false
           example: https://random-image/128.jpg
