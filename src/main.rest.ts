@@ -6,13 +6,15 @@ import { createRestAppContainer } from './rest/index.js';
 import { createUserContainer } from './modules/user/index.js';
 import { createOfferContainer } from './modules/offer/index.js';
 import { createCommentContainer } from './modules/comment/index.js';
+import { createAuthContainer } from './modules/auth/index.js';
 
 async function bootstrap() {
   const container = Container.merge(
     createRestAppContainer(),
     createUserContainer(),
     createOfferContainer(),
-    createCommentContainer()
+    createCommentContainer(),
+    createAuthContainer()
   );
 
   const app = container.get<RestApp>(Component.RestApp);
