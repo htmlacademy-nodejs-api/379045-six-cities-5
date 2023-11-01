@@ -94,7 +94,7 @@ paths:
         '401':
           description: Токен сеанса пользователя недействителен.
 
-  /users/{userId}/favorites:
+  /users/favorites:
     get:
       tags:
         - users
