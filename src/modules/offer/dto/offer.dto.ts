@@ -19,7 +19,7 @@ export class CreateOfferDto {
   public city: CityName;
 
   @IsOptional()
-  @IsMimeType({ message: OfferMessages.preview.msg })
+  @IsString({ message: OfferMessages.preview.msg })
   public preview?: string;
 
   @IsOptional()
