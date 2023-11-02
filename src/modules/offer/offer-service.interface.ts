@@ -11,5 +11,5 @@ export interface OfferService {
   incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   findPremium(city: string): Promise<DocumentType<OfferEntity>[]>;
   exists(documentId: string): Promise<boolean>;
-  // calculateAvgRating(offerId: string): Promise<DocumentType<OfferEntity>>;
+  updateRating(offerId: string, rating: number): Promise<void>;
 }

@@ -69,7 +69,11 @@ export class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  // public async calculateAvgRating(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-
-  // }
+  public async updateRating(offerId: string, rating: number): Promise<void> {
+    this.offerModel
+      .findByIdAndUpdate(offerId,
+        { '$set': { rating } },
+        { new: true })
+      .exec();
+  }
 }
