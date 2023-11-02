@@ -52,8 +52,7 @@ export class UserService implements UserServiceInterface {
   }
 
   public async changeFavorites(userId: string, offerId: string, value: boolean): Promise<DocumentType<UserEntity> | null> {
-    // @TODO добавить проверку на дубликаты
     return this.userModel
-      .findByIdAndUpdate(userId, { [`${value ? '$push' : '$pull'}`]: { favorites: offerId } }, { new: true }).exec();
+      .findByIdAndUpdate(userId, { [`${value ? '$addToSet' : '$pull'}`]: { favorites: offerId } }, { new: true }).exec();
   }
 }

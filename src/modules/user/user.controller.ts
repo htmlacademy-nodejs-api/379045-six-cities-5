@@ -69,12 +69,11 @@ export class UserController extends BaseController {
     });
 
     this.addRoute({
-      path: '/:offerId/favorites/',
+      path: '/favorites/',
       method: HttpMethod.Patch,
       handler: this.updateFavoriteStatus,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, { from: 'body', name: 'offerId' }),
       ]
     });
@@ -129,7 +128,7 @@ export class UserController extends BaseController {
   }
 
   public async updateFavoriteStatus({ body, tokenPayload }: Request<{ value?: boolean, offerId?: string }>, res: Response): Promise<void> {
-    const updatedUser = await this.userService.changeFavorites(tokenPayload.id, body.offerId as string, body.value as boolean);
+    const updatedUser = await this.userService.changeFavorites(tokenPayload.id, <string>body.offerId, <boolean>body.value);
     this.noContent(res, fillDTO(UserRdo, updatedUser));
   }
 }
