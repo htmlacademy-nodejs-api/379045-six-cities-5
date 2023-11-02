@@ -26,4 +26,10 @@ export class CommentEntity extends defaultClasses.TimeStamps {
     required: true,
   })
   public userId: Ref<UserEntity>;
+
+  @prop({
+    required: false,
+    default: 0
+  })
+  public rating: number;
 }
