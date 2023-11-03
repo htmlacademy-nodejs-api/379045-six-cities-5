@@ -1,4 +1,4 @@
-import { CiryCoords } from './cities.js';
+import { CiryCoords, CityName } from './cities.js';
 import { User } from './user.js';
 
 export enum OfferType {
@@ -12,7 +12,7 @@ export type Offer = {
   title: string;
   description: string;
   postDate: Date;
-  city: string;
+  city: CityName;
   preview: string;
   photos: string[];
   premium: boolean;

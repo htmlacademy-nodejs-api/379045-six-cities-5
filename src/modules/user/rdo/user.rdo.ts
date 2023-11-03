@@ -9,4 +9,15 @@ export class UserRdo {
 
   @Expose()
   public name: string;
+
+  @Expose()
+  public favorites: string[];
+}
+
+export class LoggedUserRdo {
+  @Expose()
+  public token: string;
+
+  @Expose()
+  public email: string;
 }

@@ -94,7 +94,7 @@ paths:
         '401':
           description: Токен сеанса пользователя недействителен.
 
-  /users/{userId}/favorites:
+  /users/favorites:
     get:
       tags:
         - users
@@ -111,6 +111,34 @@ paths:
                   $ref: '#/components/schemas/offerPreview'
         '401':
           description: Пользователь не авторизован для просмотра избранных предложений.
+    patch:
+      tags:
+        - offers
+      summary: Избранное предложение
+      description: Добавляет/удаляет предложение в список избранного в/из него.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+        - in: path
+          name: value
+          schema:
+            type: boolean
+            required: true
+            description: Булевый статус находжения оффера в избранном
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: boolean
+      responses:
+        '204':
+          description: Статус предложения "избранное" был успешно обновлен
+        '401':
+          description: Пользователь не авторизован для обновления списка избранных предложений.
 
   /offers:
     get:
@@ -261,30 +289,6 @@ paths:
           description: Пользователь не уполномочен удалять данное предложение.
         '404':
           description: Предложение с указанным идентификатором не существует.
-
-  /offers/{offerId}favorite/:
-    put:
-      tags:
-        - offers
-      summary: Избранное предложение
-      description: Добавляет/удаляет предложение в список избранного в/из него.
-      parameters:
-        - in: path
-          name: offerId
-          schema:
-            type: string
-            required: true
-            description: Идентификатор предложения.
-      requestBody:
-        content:
-          text/plain:
-            schema:
-              type: boolean
-      responses:
-        '204':
-          description: Статус предложения "избранное" был успешно обновлен
-        '401':
-          description: Пользователь не авторизован для обновления списка избранных предложений.
 
   /offers/{offerId}/comments:
     get:

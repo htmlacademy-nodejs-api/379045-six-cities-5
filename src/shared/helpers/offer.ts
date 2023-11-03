@@ -1,4 +1,4 @@
-import { CiryCoords } from '../types/cities.js';
+import { CiryCoords, CityName } from '../types/cities.js';
 import { Offer, OfferType } from '../types/offer.js';
 import { UserType } from '../types/user.js';
 
@@ -32,7 +32,7 @@ export const convertRawDataToOffers = (offerData: string): Offer => {
     title,
     description,
     postDate: new Date(createdDate),
-    city,
+    city: city as CityName,
     preview,
     photos: photos.split(';').map((photo) => photo),
     premium: Math.random() < 0.5,

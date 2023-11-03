@@ -9,7 +9,6 @@ export class CreateCommentDto {
   @IsMongoId({ message: CreateCommentMessages.offerId.id.msg })
   public offerId: string;
 
-  @IsMongoId({ message: CreateCommentMessages.userId.id.msg })
   public userId: string;
 
   @IsNumber({}, { message: CreateCommentMessages.rating.int.msg })

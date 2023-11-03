@@ -1,6 +1,6 @@
 import { defaultClasses, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { UserEntity } from '../user/user.entity.js';
-import { CiryCoords, OfferType } from '../../shared/types/index.js';
+import { CiryCoords, CityName, OfferType } from '../../shared/types/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base { }
@@ -22,7 +22,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public postDate!: Date;
 
   @prop()
-  public city!: string;
+  public city!: CityName;
 
   @prop()
   public preview!: string;

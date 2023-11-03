@@ -1,10 +1,9 @@
-import { Length, IsMongoId, IsDateString, IsInt, Min, Max, IsArray, IsString, IsBoolean, IsNumber, IsObject, IsEnum, IsOptional, IsMimeType, ArrayMinSize, ArrayMaxSize, ArrayUnique } from 'class-validator';
+import { Length, IsDateString, IsInt, Min, Max, IsArray, IsString, IsBoolean, IsNumber, IsObject, IsEnum, IsOptional, IsMimeType, ArrayMinSize, ArrayMaxSize, ArrayUnique } from 'class-validator';
 import { OfferType, CiryCoords, CityName, Comforts } from '../../../shared/types/index.js';
 import { OfferMessages } from './validate-messages.js';
 
 
 export class CreateOfferDto {
-  @IsMongoId({ message: OfferMessages.userId.msg })
   public userId: string;
 
   @Length(10, 100, { message: OfferMessages.title.msg })
@@ -20,7 +19,7 @@ export class CreateOfferDto {
   public city: CityName;
 
   @IsOptional()
-  @IsMimeType({ message: OfferMessages.preview.msg })
+  @IsString({ message: OfferMessages.preview.msg })
   public preview?: string;
 
   @IsOptional()
@@ -33,6 +32,9 @@ export class CreateOfferDto {
   @IsOptional()
   @IsBoolean({ message: OfferMessages.premium.msg })
   public premium: boolean;
+
+  @IsOptional()
+  public rating: number;
 
   @IsOptional()
   @IsEnum(OfferType, { message: OfferMessages.type.msg })

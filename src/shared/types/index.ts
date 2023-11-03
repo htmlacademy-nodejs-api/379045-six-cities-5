@@ -10,3 +10,4 @@ export * from '../libs/rest/types/route.js';
 export * from './http-method.js';
 export * from './request.js';
 export * from './document-exists.js';
+export * from './document-find.js';
