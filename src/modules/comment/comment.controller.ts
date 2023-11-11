@@ -1,11 +1,11 @@
 import { injectable, inject } from 'inversify';
-import { BaseController, PrivateRouteMiddleware, ValidateDtoMiddleware, DocumentExistsMiddleware } from '../../shared/libs/rest/index.js';
+import { BaseController, PrivateRouteMiddleware, ValidateDtoMiddleware, DocumentExistsMiddleware, ValidateObjectIdMiddleware } from '../../shared/libs/rest/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
 import { CommentService } from './comment-service.interface.js';
 import { OfferService } from '../offer/index.js';
 import { Component, HttpMethod, Req } from '../../shared/types/index.js';
 import { CreateCommentDto } from './dto/comment.dto.js';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { fillDTO } from '../../shared/helpers/index.js';
 import { CommentRdo } from './rdo/comment.rdo.js';
 
@@ -22,6 +22,17 @@ export class CommentController extends BaseController {
     super(logger);
 
     this.logger.info('Register routes for CommentController…');
+
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Get,
+      handler: this.index,
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, { from: 'params', name: 'offerId' }),
+      ]
+    });
+
     this.addRoute({
       path: '/',
       method: HttpMethod.Post,
@@ -32,6 +43,11 @@ export class CommentController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, { from: 'body', name: 'offerId' }),
       ]
     });
+  }
+
+  public async index({ params: { offerId } }: Request<{ offerId?: string }>, res: Response): Promise<void> {
+    const comments = await this.commentService.findByOfferId(offerId as string);
+    this.ok(res, fillDTO(CommentRdo, comments));
   }
 
   public async create({ body, tokenPayload }: Req<CreateCommentDto>, res: Response): Promise<void> {

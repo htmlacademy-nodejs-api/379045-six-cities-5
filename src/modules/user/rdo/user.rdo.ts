@@ -9,9 +9,6 @@ export class UserRdo {
 
   @Expose()
   public name: string;
-
-  @Expose()
-  public favorites: string[];
 }
 
 export class LoggedUserRdo {
