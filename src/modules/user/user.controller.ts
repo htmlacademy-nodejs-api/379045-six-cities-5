@@ -81,7 +81,7 @@ export class UserController extends BaseController {
 
   public async index({ tokenPayload }: Request, res: Response): Promise<void> {
     const result = await this.userService.findFavorites(tokenPayload.id);
-    this.created(res, fillDTO(OfferRdo, result));
+    this.ok(res, fillDTO(OfferRdo, result));
   }
 
   public async create({ body }: Req<CreateUserDto>, res: Response): Promise<void> {

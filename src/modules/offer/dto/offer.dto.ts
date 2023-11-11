@@ -1,4 +1,4 @@
-import { Length, IsDateString, IsInt, Min, Max, IsArray, IsString, IsBoolean, IsNumber, IsObject, IsEnum, IsOptional, IsMimeType, ArrayMinSize, ArrayMaxSize, ArrayUnique } from 'class-validator';
+import { Length, IsInt, Min, Max, IsArray, IsString, IsBoolean, IsObject, IsEnum, IsOptional, IsMimeType, ArrayMinSize, ArrayMaxSize, ArrayUnique } from 'class-validator';
 import { OfferType, CiryCoords, CityName, Comforts } from '../../../shared/types/index.js';
 import { OfferMessages } from './validate-messages.js';
 
@@ -11,9 +11,6 @@ export class CreateOfferDto {
 
   @Length(20, 1024, { message: OfferMessages.description.msg })
   public description: string;
-
-  @IsDateString({}, { message: OfferMessages.postDate.msg })
-  public postDate: Date;
 
   @IsEnum(CityName, { message: OfferMessages.city.msg })
   public city: CityName;
@@ -60,9 +57,6 @@ export class CreateOfferDto {
   @ArrayUnique({ message: OfferMessages.comforts.arrUnique.msg })
   @ArrayMinSize(1, { message: OfferMessages.comforts.minSize.msg })
   public comforts: string[];
-
-  @IsNumber({}, { message: OfferMessages.commentsCount.int.msg })
-  public commentsCount: number;
 
   @IsObject({ message: OfferMessages.coords.isObject.msg })
   public coords: CiryCoords;

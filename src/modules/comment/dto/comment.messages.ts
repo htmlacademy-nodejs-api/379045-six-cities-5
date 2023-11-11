@@ -6,9 +6,6 @@ export const CreateCommentMessages = {
   offerId: {
     id: { msg: 'offerId field must be a valid id'}
   },
-  userId: {
-    id: { msg: 'userId field must be a valid id'}
-  },
   rating: {
     int: { msg: 'rating must be an integer value' },
     min: { msg: 'rating min count is 1' },
