@@ -28,7 +28,7 @@ export const OfferMessages = {
   },
   comforts: {
     arr: { msg: 'field "comforts" must be an array' },
-    enum: { msg: 'each item in "comforts" array must be one of the following: "Breakfast", "Air conditioning", "Laptop", "Friendly workspace", "Baby seat", "Washer", "Towels", "Fridge"' },
+    enum: { msg: 'each item in "comforts" array must be one of the following: "Breakfast", "Air conditioning", "Laptop friendly workspace", "Baby seat", "Washer", "Towels", "Fridge"' },
     arrUnique: { msg: 'all items in "comforts" array must be unique' },
     minSize: { msg: 'the "comforts" field must have at least one value' }
   },

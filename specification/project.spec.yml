@@ -378,18 +378,30 @@ components:
     validationError:
       type: object
       properties:
-        message:
+        errorType:
+            type: string
+            description: Тип ошибки, связанный с ошибкой проверки.
+            example: VALIDATION_ERROR
+        error:
           type: string
-          description: Описание ошибки валидации
-          example: Пароль слишком короткий
-        field:
-          type: string
-          description: Имя поля, проверка которого не прошла.
-          example: password
-        code:
-          type: string
-          description: Код ошибки, связанный с ошибкой проверки.
-          example: validation.createUser.password.tooShort
+          description: Где произошла ошибка валидации
+          example: "Validation error: /register/"
+        details:
+          type: object
+          description: Массив с описанием ошибок валидации
+          properties:
+            property:
+              type: string
+              description: поле где произошла ошибка валидации
+              example: password
+            value:
+              type: string
+              description: переданное невалидное значение
+              example: 123
+            messages:
+              type: array
+              description: Массив сообщений с описанием ошибок валидации
+              example: Пароль слишком короткий
 
     createUser:
       type: object
