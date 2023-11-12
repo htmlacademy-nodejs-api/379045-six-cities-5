@@ -9,6 +9,7 @@ import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferDto, UpdateOfferDto } from './dto/offer.dto.js';
 import { StatusCodes } from 'http-status-codes';
 import { CommentService } from '../comment/comment-service.interface.js';
+import { DEFAULT_OFFERS_COUNT } from './offer.const.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -72,9 +73,9 @@ export class OfferController extends BaseController {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-
-    const result = await this.offerService.find();
+  public async index({ query: { limit } }: Request, res: Response): Promise<void> {
+    const count = limit ? limit as unknown as number : DEFAULT_OFFERS_COUNT;
+    const result = await this.offerService.find(count);
 
     this.ok(res, fillDTO(OfferRdo, result));
   }

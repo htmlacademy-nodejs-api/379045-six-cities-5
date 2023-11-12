@@ -153,17 +153,6 @@ paths:
             type: integer
             required: false
             description: Количество предложений, которые нужно получить
-        - in: query
-          name: sortBy
-          schema:
-            type: string
-            enum:
-              - date-asc
-              - date-desc
-              - rating
-              - popular
-            required: false
-            description: Сортировка списка
       responses:
         '200':
           description: Список предложений
