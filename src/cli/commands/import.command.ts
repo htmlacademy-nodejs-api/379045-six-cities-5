@@ -56,7 +56,6 @@ export class Import implements Command {
       userId: user.id,
       title: offer.title,
       description: offer.description,
-      postDate: offer.postDate,
       city: offer.city,
       preview: offer.preview,
       photos: offer.photos,
@@ -67,7 +66,6 @@ export class Import implements Command {
       price: offer.price,
       type: offer.type,
       comforts: offer.comforts,
-      commentsCount: offer.commentsCount,
       coords: offer.coords
     });
 

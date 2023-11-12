@@ -42,9 +42,15 @@ export class UserService implements UserServiceInterface {
 
   public async findFavorites(userId: string): Promise<DocumentType<OfferEntity>[] | null> {
     return this.userModel
-      .findById(userId, { favorites: true, _id: false })
-      .populate<{ favorites: DocumentType<OfferEntity>[] }>('favorites')
-      .sort({ createdAt: SortType.Down })
+      .findById(userId, { favorites: true })
+      .populate<{ favorites: DocumentType<OfferEntity>[] }>(
+        {
+          path: 'favorites',
+          options: {
+            populate: 'userId',
+            sort: { createdAt: SortType.Down }
+          },
+        })
       .orFail()
       .exec()
       .then(({ favorites }) => favorites);

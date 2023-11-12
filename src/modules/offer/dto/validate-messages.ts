@@ -3,7 +3,6 @@ export const OfferMessages = {
   userId: { msg: 'userId must be a valid mongo document id' },
   title: { msg: 'the title should have a length of 10 to 100'},
   description: { msg: 'the description should have a length of 20 to 1024'},
-  postDate: { msg: 'the postDate must be a valid iso date'},
   city: { msg: 'city must be only one of the following: "Paris", "Cologne", "Brussels", "Amsterdam", "Hamburg", "Dusseldorf"'},
   preview: { msg: 'preview must be a valid image file'},
   photos: {
@@ -29,12 +28,9 @@ export const OfferMessages = {
   },
   comforts: {
     arr: { msg: 'field "comforts" must be an array' },
-    enum: { msg: 'each item in "comforts" array must be one of the following: "Breakfast", "Air conditioning", "Laptop", "Friendly workspace", "Baby seat", "Washer", "Towels", "Fridge"' },
+    enum: { msg: 'each item in "comforts" array must be one of the following: "Breakfast", "Air conditioning", "Laptop friendly workspace", "Baby seat", "Washer", "Towels", "Fridge"' },
     arrUnique: { msg: 'all items in "comforts" array must be unique' },
     minSize: { msg: 'the "comforts" field must have at least one value' }
-  },
-  commentsCount: {
-    int: { msg: 'commentsCount must be an integer value' },
   },
   coords: {
     isObject: { msg: 'coords must be an object with fields: "latitude", "longitude"' }

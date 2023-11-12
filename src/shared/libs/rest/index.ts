@@ -9,3 +9,4 @@ export * from './middleware/upload-file.middleware.js';
 export * from './middleware/private-route.middleware.js';
 export * from './middleware/parse-token.middleware.js';
 export * from './middleware/checking-user-access.middleware.js';
+export * from './types/error.js';

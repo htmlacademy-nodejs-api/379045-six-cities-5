@@ -113,7 +113,7 @@ paths:
           description: Пользователь не авторизован для просмотра избранных предложений.
     patch:
       tags:
-        - offers
+        - users
       summary: Избранное предложение
       description: Добавляет/удаляет предложение в список избранного в/из него.
       parameters:
@@ -290,40 +290,14 @@ paths:
         '404':
           description: Предложение с указанным идентификатором не существует.
 
-  /offers/{offerId}/comments:
-    get:
-      tags:
-        - offers
-        - comments
-      summary: Список комментариев
-      description: Возвращает список последних комментариев к данному предложению.
-      parameters:
-        - in: path
-          name: offerId
-          schema:
-            type: string
-            required: true
-            description: Идентификатор предложения.
-      responses:
-        '200':
-          description: Список комментариев.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/comment'
-        '404':
-          description: Предложение с указанным идентификатором не существует.
-
-  /offers/premium:
+  /offers/premium/{city}:
     get:
       tags:
         - offers
       summary: Список премиальных предложений
       description: Возвращает список премиальных предложений для данного города.
       parameters:
-        - in: query
+        - in: path
           name: city
           schema:
             type: string
@@ -346,19 +320,6 @@ paths:
         - comments
       summary: Создание комментария
       description: Добавляет комментарий к данному предложению.
-      parameters:
-        - in: path
-          name: offerId
-          schema:
-            type: string
-            required: true
-            description: Идентификатор предложения.
-        - in: path
-          name: userId
-          schema:
-            type: string
-            required: true
-            description: Идентификатор пользователя.
       requestBody:
         description: Информация для создания нового комментария.
         content:
@@ -386,23 +347,61 @@ paths:
         '404':
           description: Предложение с указанным идентификатором не существует.
 
+  /comments/{offerId}:
+    get:
+      tags:
+        - offers
+        - comments
+      summary: Список комментариев
+      description: Возвращает список комментариев к данному предложению.
+      parameters:
+        - in: path
+          name: offerId
+          schema:
+            type: string
+            required: true
+            description: Идентификатор предложения.
+      responses:
+        '200':
+          description: Список комментариев.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+        '404':
+          description: Предложение с указанным идентификатором не существует.
+
 components:
   schemas:
     validationError:
       type: object
       properties:
-        message:
+        errorType:
+            type: string
+            description: Тип ошибки, связанный с ошибкой проверки.
+            example: VALIDATION_ERROR
+        error:
           type: string
-          description: Описание ошибки валидации
-          example: Пароль слишком короткий
-        field:
-          type: string
-          description: Имя поля, проверка которого не прошла.
-          example: password
-        code:
-          type: string
-          description: Код ошибки, связанный с ошибкой проверки.
-          example: validation.createUser.password.tooShort
+          description: Где произошла ошибка валидации
+          example: "Validation error: /register/"
+        details:
+          type: object
+          description: Массив с описанием ошибок валидации
+          properties:
+            property:
+              type: string
+              description: поле где произошла ошибка валидации
+              example: password
+            value:
+              type: string
+              description: переданное невалидное значение
+              example: 123
+            messages:
+              type: array
+              description: Массив сообщений с описанием ошибок валидации
+              example: Пароль слишком короткий
 
     createUser:
       type: object
@@ -436,7 +435,7 @@ components:
     authUser:
       type: object
       properties:
-        login:
+        email:
           type: string
           example: keks@htmlacademy.ru
         password:
@@ -457,6 +456,7 @@ components:
           example: Keks
         avatar:
           type: string
+          required: false
           example: https://random-image/128.jpg
         type:
           type: string
@@ -464,6 +464,10 @@ components:
             - standard
             - pro
           example: pro
+        favorites:
+          type: array
+          required: false
+          example: []
 
     createOffer:
       type: object
@@ -506,12 +510,12 @@ components:
         type:
           type: string
           enum:
-            - Apartment
-            - House
-            - Room
-            - Hotel
+            - apartment
+            - house
+            - room
+            - hotel
           required: true
-          example: Apartment
+          example: apartment
         roomsCount:
           type: integer
           required: true
@@ -597,11 +601,11 @@ components:
         type:
           type: string
           enum:
-            - Apartment
-            - House
-            - Room
-            - Hotel
-          example: Apartment
+            - apartment
+            - house
+            - room
+            - hotel
+          example: apartment
           required: false
         roomsCount:
           type: integer
@@ -679,9 +683,6 @@ components:
         premium:
           type: boolean
           example: true
-        favored:
-          type: boolean
-          example: true
         rating:
           type: number
           format: float
@@ -689,11 +690,11 @@ components:
         type:
           type: string
           enum:
-            - Apartment
-            - House
-            - Room
-            - Hotel
-          example: Apartment
+            - apartment
+            - house
+            - room
+            - hotel
+          example: apartment
         roomsCount:
           type: integer
           example: 3
@@ -748,11 +749,11 @@ components:
         type:
           type: string
           enum:
-            - Apartment
-            - House
-            - Room
-            - Hotel
-          example: Apartment
+            - apartment
+            - aouse
+            - room
+            - hotel
+          example: apartment
         postDate:
           type: string
           format: date-time
@@ -789,9 +790,13 @@ components:
           minLength: 5
           maxLength: 1024
           required: true
-        userId:
+        offerId:
           type: string
           example: 6329c3d6a04ab1061c6425ea
+          required: true
+        rating:
+          type: number
+          example: 4
           required: true
 
     comment:
@@ -808,6 +813,10 @@ components:
           type: number
           format: float
           example: 4.2
-        userId:
-          type: string
-          example: 6329c3d6a04ab1061c6425ea
+        author:
+          type: object
+          example:  {
+            email: fish@big.local,
+            avatar: avatar-max.jpg,
+            name: Пьер Безухов
+          }
