@@ -116,24 +116,12 @@ paths:
         - users
       summary: Избранное предложение
       description: Добавляет/удаляет предложение в список избранного в/из него.
-      parameters:
-        - in: path
-          name: offerId
-          schema:
-            type: string
-            required: true
-            description: Идентификатор предложения.
-        - in: path
-          name: value
-          schema:
-            type: boolean
-            required: true
-            description: Булевый статус находжения оффера в избранном
       requestBody:
+        description: Информация для создания нового предложения.
         content:
-          text/plain:
+          application/json:
             schema:
-              type: boolean
+              $ref: '#/components/schemas/changeFavoriteStatus'
       responses:
         '204':
           description: Статус предложения "избранное" был успешно обновлен
@@ -453,10 +441,18 @@ components:
             - standard
             - pro
           example: pro
-        favorites:
-          type: array
-          required: false
-          example: []
+
+    changeFavoriteStatus:
+      type: object
+      properties:
+        offerId:
+          type: string
+          required: true
+          example: 6540033a4c51a7599e2f299c
+        value:
+          type: boolean
+          required: true
+          example: true
 
     createOffer:
       type: object
