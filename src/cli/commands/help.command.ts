@@ -11,10 +11,17 @@ export class Help implements Command {
         Пример:
             cli.js --<command> [--arguments]
         Команды:
-            --version:                   # выводит номер версии
-            --help:                      # печатает этот текст
-            --import <path>:             # импортирует данные из TSV
-            --generate <n> <path> <url>  # генерирует произвольное количество тестовых данных
+            # выводит номер версии:
+            --version
+
+            # печатает этот текст:
+            --help
+
+            # импортирует данные из TSV:
+            --import <path> <dbUser> <dbPasss> <url> <dbName> <salt>
+
+            # генерирует произвольное количество тестовых данных:
+            --generate <n> <path> <url>
     `);
   }
 }
